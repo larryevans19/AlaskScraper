@@ -51,8 +51,8 @@ $(document).ready(function () {
         for (var l = 0; l < data.length; l++) {
 
           $('#comments').append(`
-       <h4>${data[l].title}</h4>
-       <h5>${data[l].body}</h5>
+       <h5>${data[l].title}</h5>
+       <p>${data[l].body}</p>
        <button class='btn btn-warning' data-id='${data[l]._id}' data-name='${articleTitle}' id='delete-comment'>Delete Comment</button><hr>`)
         }
 
