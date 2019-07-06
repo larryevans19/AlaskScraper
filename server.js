@@ -29,9 +29,12 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://192.168.99.100/alaskcraping", { useNewUrlParser: true });
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://192.168.99.100/alaskcraping'
 
-// Routes
+// Connect Mongo DB to Mongoose
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+
+//**ROUTES**
 
 // GET route for scraping the Alaska News page of the Fairbanks Daily News Miner website
 app.get('/scrape', function (req, res) {
