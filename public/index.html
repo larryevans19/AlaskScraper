@@ -41,8 +41,9 @@
     #comments {
       width: 100%;
       background-color: lightgoldenrodyellow;
-      padding: .5rem;
-      margin-top: 1rem;
+      padding: 0rem .5rem 0rem .5rem;
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
     }
 
     textarea,
@@ -50,16 +51,20 @@
       display: block;
       width: 100%;
       background-color: #FCF5C7;
+      padding: .25rem;
+
     }
 
     input {
       height: 36px;
       font-size: 24px;
+      margin: .25rem;
     }
 
     textarea {
       height: 200px;
       font-size: 18px;
+      margin: .25rem;
     }
 
     .top {
@@ -90,6 +95,13 @@
       color: navy;
     }
 
+    #delete-comment {
+      margin-bottom: .15rem !important
+    }
+    
+    #save-comment {
+      margin: .5rem 0 .55rem 0;
+    }
 
   </style>
 </head>
@@ -108,8 +120,8 @@
       <div class="col-12">
         <h1 class="top">AlaskScraper</h1>
         <h5 class="top">The Alaska News Scraper powered by the <i>Fairbanks Daily News-Miner</i></h5>
-        <h6 class="top">Click Below to Have the Dipper Scrape the News</h6>
-        <a href='#!' id='scrape'><img src='/dipper.png' id='flag' alt='flag'></a>
+        <h6 class="top">Click on the State Flag to Have the Dipper Scrape the News</h6>
+        <a href='#!' id='scrape'><img src='/flag.png' id='flag' alt='flag'></a>
       </div>
     </div>
     <div class="row">

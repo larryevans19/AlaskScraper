@@ -11,6 +11,7 @@ $(document).ready(function () {
     $.getJSON("/articles", function (data) {
       // Loop through each article
       for (var i = 0; i < data.length; i++) {
+        console.log('Data Title:', data[i].title);
         // Construct the card which will display the article using the data object
         $('#articles').append(`
     <div class='card arty' data-id='${data[i]._id}'> 
@@ -20,11 +21,50 @@ $(document).ready(function () {
       <p class='card-text' id='summary'>${data[i].summary}</p>
     <p class='card-text' id='link'><a href='https://www.newsminer.com${data[i].link}'>https://www.newsminer.com${data[i].link}</a></p>
     
-    <a href='#comments'><button type='button' class='btn btn-warning comment-button' data-id='${data[i]._id}'>Comments</button></a></div></div>`)
+    <a href='#comments'><button type='button' class='btn btn-warning comment-button' data-id='${data[i]._id}' data-name='${data[i].title}'>View Comments</button></a>
+    <a href='#comments'><button type='button' class='btn btn-warning add-button' data-id='${data[i]._id}' data-name='${data[i].title}'>Add a Comment</button></a>
+    </div></div>`)
       }
 
     });
   };
+
+  function renderComments(articleId,articleTitle) {
+    // Empty the comments from the comment section
+    $('#comments').empty();
+    $('#comments').show();
+
+    // Now make an ajax call for the Article
+    $.ajax({
+      method: 'GET',
+      url: '/comments/' + articleId,
+    })
+      // With that done, add the comment information to the page
+      .then(function (data) {
+
+        console.log(data);
+        // Comment list construction
+        $('#comments').append(`<h4>Comments for Article:</h4>
+        <h5 class='card-title'><i>${articleTitle}</i></h5><hr>`);
+
+        for (var l = 0; l < data.length; l++) {
+
+          $('#comments').append(`
+       <h4>${data[l].title}</h4>
+       <h5>${data[l].body}</h5>
+       <button class='btn btn-warning' data-id='${data[l]._id}' data-name='${articleTitle}' id='delete-comment'>Delete Comment</button><hr>`)
+        }
+
+        // If there's a note in the article
+        // if (data.note) {
+        //   // Place the title of the note in the title input
+        //   $("#titleinput").val(data.note.title);
+        //   // Place the body of the note in the body textarea
+        //   $("#bodyinput").val(data.note.body);
+        // }
+      });
+
+  }
 
   // Click listener for the link id on the flag image, which the user is prompted to click to triggers to scrape for new articles
   $(document).on('click', '#scrape', function () {
@@ -41,72 +81,106 @@ $(document).ready(function () {
       })
   })
 
-  // Whenever someone clicks the Manage comments button
+
+  // Whenever someone clicks the the View Comments button
   $(document).on('click', '.comment-button', function () {
-    console.log("Clicked")
+    console.log("VIEW Clicked")
+
+    // Save the id from the button
+    let thisId = $(this).attr("data-id");
+    let thisTitle= $(this).attr("data-name");
+    console.log('ThisId', thisId);
+    console.log('ThisTitle',thisTitle);
+
+    renderComments(thisId,thisTitle)
+
+  });
+
+  // Whenever someone clicks to Add a Comment button
+  $(document).on('click', '.add-button', function () {
+    console.log("ADD Clicked")
     // Empty the comments from the comment section
     $('#comments').empty();
     $('#comments').show();
     // Save the id from the p tag
-    const thisId = $(this).attr('data-id');
+    let thisId = $(this).attr('data-id');
+    let thisTitle= $(this).attr("data-name");
     console.log("thisId:", thisId);
+    console.log('ThisTitle',thisTitle);
     // Now make an ajax call for the Article
     $.ajax({
       method: 'GET',
-      url: '/comments'
+      url: '/articles/' + thisId
     })
       // With that done, add the comment information to the page
       .then(function (data) {
         console.log(data);
         // The title of the article
-        $("#comments").append(`<h4> Comments for: <br> <i>${data.title}</i> </h4>`);
-        // List of All Comments for the Article
-        $
-        // An input to enter a new title
-        $("#comments").append("<input id='titleinput' name='title' >");
-        // A textarea to add a new comment body
-        $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
-        // A button to submit a new comment, with the id of the article saved to it
-        $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save comment</button>");
-
-        // If there's a comment in the article
-        if (data.comment) {
-          // Place the title of the comment in the title input
-          $("#titleinput").val(data.comment.title);
-          // Place the body of the comment in the body textarea
-          $("#bodyinput").val(data.comment.body);
-        }
+        $("#comments").append(`<h4> Add a Comment for Article:</h4> <h5 class='card-title'><i>${data.title}</i></h5>`);
+        // An input to enter a Comment Title
+        $("#comments").append('<input id="titleinput" placeholder="Comment Title" name="title">');
+        // A textarea to add a Comment Body
+        $("#comments").append('<textarea id="bodyinput" placeholder="Comment Content" name="body"></textarea>');
+        // A button to submit the new comment, with the id of the article associated with it
+        $("#comments").append(`<button class='btn btn-warning' data-id='${data._id}' data-name='${data.title}' id='save-comment'>Save Comment</button>`);
       });
   });
 
-
-  // When you click the savecomment button
-  $(document).on('click', "#savecomment", function () {
+  // When user clicks the save-comment button
+  $(document).on('click', '#save-comment', function () {
     // Grab the id associated with the article from the submit button
-    var thisId = $(this).attr("data-id");
-
+    let thisId = $(this).attr('data-id');
+    let thisTitle= $(this).attr("data-name");
+    console.log('Save Comment ArticleID', thisId);
+    console.log('ThisTitle',thisTitle);
     // Run a POST request to change the comment, using what's entered in the inputs
     $.ajax({
-      method: "POST",
-      url: "/articles/" + thisId,
+      method: 'POST',
+      url: '/comments/' + thisId,
       data: {
+        article_id: thisId,
         // Value taken from title input
-        title: $("#titleinput").val(),
+        title: $('#titleinput').val(),
         // Value taken from comment textarea
-        body: $("#bodyinput").val()
+        body: $('#bodyinput').val()
       }
     })
-      // With that done
+      // Once complete
       .then(function (data) {
         // Log the response
         console.log(data);
+        console.log('Comment posted')
+        // Post confirmation
+
+        renderComments(thisId,thisTitle);
+
         // Empty the comments section
-        $("#comments").empty();
       });
 
     // Also, remove the values entered in the input and textarea for comment entry
-    $("#titleinput").val("");
-    $("#bodyinput").val("");
+    $('#titleinput').val('');
+    $('#bodyinput').val('');
   });
 
+  // When user clicks the delete button
+  $(document).on('click', '#delete-comment', function () {
+    console.log('DELETE Clicked')
+    // Grab the id associated with the article from the submit button
+    let thisId = $(this).attr('data-id');
+    let thisTitle= $(this).attr("data-name");
+    console.log('Save Comment ArticleID', thisId);
+    console.log('ThisTitle',thisTitle);
+    // Run a POST request to change the comment, using what's entered in the inputs
+    $.ajax({
+      method: 'GET',
+      url: '/delete/' + thisId,
+    })
+      // Once complete
+      .then(function (data) {
+        // Log the response
+        console.log(data);
+        console.log('Comment deleted')
+        renderComments(thisId,thisTitle);
+      });
+  });
 })
