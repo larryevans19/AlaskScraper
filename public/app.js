@@ -44,7 +44,8 @@ $(document).ready(function () {
 
         console.log(data);
         // Comment list construction
-        $('#comments').append(`<h4>Comments for Article:</h4>
+        $('#comments').append(`
+        <h4 class='topcom'>Comments for Article:</h4>
         <h5 class='card-title'><i>${articleTitle}</i></h5><hr>`);
 
         for (var l = 0; l < data.length; l++) {
@@ -116,7 +117,7 @@ $(document).ready(function () {
       .then(function (data) {
         console.log(data);
         // The title of the article
-        $("#comments").append(`<h4> Add a Comment for Article:</h4> <h5 class='card-title'><i>${data.title}</i></h5>`);
+        $("#comments").append(`<h4 class='topcom'> Add a Comment for Article:</h4> <h5 class='card-title'><i>${data.title}</i></h5>`);
         // An input to enter a Comment Title
         $("#comments").append('<input id="titleinput" placeholder="Comment Title" name="title">');
         // A textarea to add a Comment Body
