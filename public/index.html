@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <meta charset="UTF-8">
+  <title>AlaskScraping the News</title>
+  <style>
+    body {
+      background-color: navy !important;
+    }
+
+    .navbar {
+      padding: 0rem !important;
+
+    }
+
+    #topbar {
+      width: 100vw;
+      height: auto;
+      max-height: 40vh;
+    }
+
+    .card {
+      background-color: lightgoldenrodyellow !important;
+    }
+
+    #wrapper {
+      width: 90vw;
+      margin-left: auto;
+      margin-right: auto;
+
+    }
+
+    #articles {
+      display: inline-block;
+
+      width: 100%;
+      height: 700px;
+    }
+
+    #comments {
+      width: 100%;
+      background-color: lightgoldenrodyellow;
+      padding: .5rem;
+      margin-top: 1rem;
+    }
+
+    textarea,
+    input {
+      display: block;
+      width: 100%;
+      background-color: #FCF5C7;
+    }
+
+    input {
+      height: 36px;
+      font-size: 24px;
+    }
+
+    textarea {
+      height: 200px;
+      font-size: 18px;
+    }
+
+    .top {
+      text-align: center;
+      color: gold;
+    }
+
+    .arty {
+      margin: 1rem;
+    }
+
+    #byline {
+      font-size: smaller;
+    }
+
+    #navtitle {
+      color: gold !important;
+      background-color: navy !important;
+    }
+
+    #flag {
+      text-align: center;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .card-title {
+      color: navy;
+    }
+
+
+  </style>
+</head>
+
+<body>
+
+  <div class="container d-flex justify-content-center">
+    <nav class="navbar">
+
+      <img src='/background.png' id='topbar' alt='topbar'>
+
+    </nav>
+  </div>
+  <div id="wrapper">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12">
+        <h1 class="top">AlaskScraper</h1>
+        <h5 class="top">The Alaska News Scraper powered by the <i>Fairbanks Daily News-Miner</i></h5>
+        <h6 class="top">Click Below to Have the Dipper Scrape the News</h6>
+        <a href='#!' id='scrape'><img src='/dipper.png' id='flag' alt='flag'></a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-8">
+        <div id="articles"></div>
+      </div>
+      <div class="col-4">
+        <div id="comments" display='none'></div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
