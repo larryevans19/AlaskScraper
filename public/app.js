@@ -42,18 +42,24 @@ $(document).ready(function () {
       // With that done, add the comment information to the page
       .then(function (data) {
 
+
         console.log(data);
         // Comment list construction
         $('#comments').append(`
         <h4 class='topcom'>Comments for Article:</h4>
         <h5 class='card-title'><i>${articleTitle}</i></h5><hr>`);
 
+        if(data.length===0) {
+          $('#comments').append(`
+          <h5 id='no-comment'>There are currently no comments for this article.  Get the conversation started by adding a comment!</h5>
+          <a href='#comments'><button type='button' class='btn btn-warning add-button no-comment-add' data-id='${articleId}' data-name='${articleTitle}'>Add a Comment</button></a>`)
+        }
         for (var l = 0; l < data.length; l++) {
 
           $('#comments').append(`
        <h5>${data[l].title}</h5>
        <p>${data[l].body}</p>
-       <button class='btn btn-warning' data-id='${data[l]._id}' data-name='${articleTitle}' id='delete-comment'>Delete Comment</button><hr>`)
+       <button class='btn btn-warning' data-id='${data[l]._id}' data-name='${articleTitle}' data-art='${articleId}' id='delete-comment'>Delete Comment</button><hr>`)
         }
 
         // If there's a note in the article
@@ -168,9 +174,11 @@ $(document).ready(function () {
     console.log('DELETE Clicked')
     // Grab the id associated with the article from the submit button
     let thisId = $(this).attr('data-id');
-    let thisTitle= $(this).attr("data-name");
-    console.log('Save Comment ArticleID', thisId);
+    let thisTitle= $(this).attr('data-name');
+    let thisArticle= $(this).attr('data-art')
+    console.log('Save Comment CommentID', thisId);
     console.log('ThisTitle',thisTitle);
+    console.log('ThisArticleId',thisArticle)
     // Run a POST request to change the comment, using what's entered in the inputs
     $.ajax({
       method: 'GET',
@@ -181,7 +189,7 @@ $(document).ready(function () {
         // Log the response
         console.log(data);
         console.log('Comment deleted')
-        renderComments(thisId,thisTitle);
+        renderComments(thisArticle,thisTitle);
       });
   });
 })
