@@ -14,9 +14,9 @@ $(document).ready(function () {
         console.log('Data Title:', data[i].title);
         // Construct the card which will display the article using the data object
         $('#articles').append(`
-    <div class='card arty' data-id='${data[i]._id}'> 
+    <div class='card arty' data-id='${data[i]._id}' id='${data[i]._id}'> 
     <div class='card-body'>
-      <h4 class='card-title'>${data[i].title}</h4>
+    <a href='https://www.newsminer.com${data[i].link}'><h4 class='card-title'>${data[i].title}</h4></a>
       <p class='card-text' id='byline'>${data[i].byline}</p>
       <p class='card-text' id='summary'>${data[i].summary}</p>
     <p class='card-text' id='link'><a href='https://www.newsminer.com${data[i].link}'>https://www.newsminer.com${data[i].link}</a></p>
@@ -47,7 +47,7 @@ $(document).ready(function () {
         // Comment list construction
         $('#comments').append(`
         <h4 class='topcom'>Comments for Article:</h4>
-        <h5 class='card-title'><i>${articleTitle}</i></h5><hr>`);
+        <a href='#${articleId}'><h5 class='card-title'><i>${articleTitle}</i></h5></a><hr>`);
 
         if(data.length===0) {
           $('#comments').append(`
@@ -123,7 +123,7 @@ $(document).ready(function () {
       .then(function (data) {
         console.log(data);
         // The title of the article
-        $("#comments").append(`<h4 class='topcom'> Add a Comment for Article:</h4> <h5 class='card-title'><i>${data.title}</i></h5>`);
+        $("#comments").append(`<h4 class='topcom'> Add a Comment for Article:</h4><a href='#${thisId}'><h5 class='card-title'><i>${data.title}</i></h5></a>`);
         // An input to enter a Comment Title
         $("#comments").append('<input id="titleinput" placeholder="Comment Title" name="title">');
         // A textarea to add a Comment Body
