@@ -12,6 +12,7 @@ $(document).ready(function () {
       // Loop through each article
       for (var i = 0; i < data.length; i++) {
         console.log('Data Title:', data[i].title);
+
         // Construct the card which will display the article using the data object
         $('#articles').append(`
     <div class='card arty' data-id='${data[i]._id}'> 
@@ -19,7 +20,9 @@ $(document).ready(function () {
     <a href='https://www.newsminer.com${data[i].link}'><h4 class='card-title'>${data[i].title}</h4></a>
       <p class='card-text' id='byline'>${data[i].byline}</p>
       <p class='card-text' id='summary'>${data[i].summary}</p>
+      <p class='card text' id='date'><i>Published on ${data[i].published}</i></p>
     <p class='card-text' id='link'><a href='https://www.newsminer.com${data[i].link}'>https://www.newsminer.com${data[i].link}</a></p>
+
     
     <a href='#comments'><button type='button' class='btn btn-warning comment-button' data-id='${data[i]._id}' data-name='${data[i].title}'>View Comments</button></a>
     <a href='#comments'><button type='button' class='btn btn-warning add-button' data-id='${data[i]._id}' data-name='${data[i].title}'>Add a Comment</button></a>
@@ -216,4 +219,5 @@ $(document).ready(function () {
 
     console.log('ThisTitle', thisTitle);
   });
-})
+});
+

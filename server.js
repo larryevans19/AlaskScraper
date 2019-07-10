@@ -1,8 +1,8 @@
-var express = require("express");
-var expressHandlebars = require("express-handlebars")
-var logger = require("morgan");
-var mongoose = require("mongoose");
-
+const express = require("express");
+const expressHandlebars = require("express-handlebars")
+const logger = require("morgan");
+const mongoose = require("mongoose");
+const moment = require("moment")
 
 // Scraping Tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -46,8 +46,9 @@ app.get('/scrape', function (req, res) {
     $("article").each(function (i, element) {
       // Store the news item result as a blank object
       console.log(i)
+
       const newsItem = {};
-      
+
       // Add the text and href of every link, and save them as properties of the result object
       newsItem.title = $(this)
         .find("h3 a")
@@ -63,10 +64,17 @@ app.get('/scrape', function (req, res) {
       newsItem.summary = $(this)
         .find(".tnt-summary")
         .text();
+
       newsItem.link = $(this)
         .find("h3 a")
-        .attr("href")
-        
+        .attr("href");
+
+      newsItem.pubdate = $(this)
+        .find("time")
+        .attr("datetime");
+
+      newsItem.published = moment(newsItem.pubdate).format('MMMM Do YYYY, h:mm:ss a');
+
       // Create a new Article using the `newsItem` object built from scraping
       db.Article.create(newsItem)
         .then(function (dbArticle) {
@@ -87,7 +95,7 @@ app.get('/scrape', function (req, res) {
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
   // Grab every document in the Articles collection
-  db.Article.find({})
+  db.Article.find({}).sort({pubdate: -1})
     .then(function (dbArticle) {
       // If we were able to successfully find Articles, send them back to the client
       res.json(dbArticle);
@@ -115,14 +123,14 @@ app.get("/articles/:id", function (req, res) {
 });
 
 // Route for retrieving all Comments from the db
-app.get("/comments", function(req, res) {
+app.get("/comments", function (req, res) {
   // Find all Comments
   db.Comment.find({})
-    .then(function(dbComment) {
+    .then(function (dbComment) {
       // If all Comments are successfully found, send them back to the client
       res.json(dbComment);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       // If an error occurs, send the error back to the client
       res.json(err);
     });
@@ -164,28 +172,28 @@ app.post("/comments/:id", function (req, res) {
 });
 
 // Route to get all Articles and populate them with their Comments
-app.get("/populatedArticle", function(req, res) {
+app.get("/populatedArticle", function (req, res) {
   // Find all articles
   db.Article.find({})
     // Specify that we want to populate the retrieved Articles with any associated Comments
     .populate("comment")
-    .then(function(dbArticle) {
+    .then(function (dbArticle) {
       // If able to successfully find and associate all Articles and Comments, send them back to the client
       res.json(dbArticle);
     })
-    .catch(function(err) {
+    .catch(function (err) {
       // If an error occurs, send it back to the client
       res.json(err);
     });
 });
 
-app.get("/delete/:_id", function(req, res) {
+app.get("/delete/:_id", function (req, res) {
   // Remove a note using the objectID
   db.Comment.remove(
     {
       _id: req.params._id
     },
-    function(error, removed) {
+    function (error, removed) {
       // Log any errors from mongojs
       if (error) {
         console.log(error);
