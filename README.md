@@ -6,5 +6,6 @@ I love Alaska.  I REALLY love Alaska.  I'm fascinated by Alaska.  I've gone to A
 
 ![](public/images/flag.png)
 
-Give it a shot to learn about the Last Frontier!
+Give it a scrape to learn about what's happening in the Last Frontier!
+
 https://alaskscraper.herokuapp.com/
