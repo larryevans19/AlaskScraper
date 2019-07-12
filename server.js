@@ -2,7 +2,8 @@ const express = require("express");
 const expressHandlebars = require("express-handlebars")
 const logger = require("morgan");
 const mongoose = require("mongoose");
-const moment = require("moment")
+const moment = require("moment");
+const tz= require("moment-timezone")
 
 // Scraping Tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -47,6 +48,12 @@ app.get('/scrape', function (req, res) {
       // Store the news item result as a blank object
       console.log(i)
 
+      pubbed = $(this)
+      .find("time")
+      .attr("datetime");
+
+      publishedDate = moment(pubbed)
+
       const newsItem = {};
 
       // Add the text and href of every link, and save them as properties of the result object
@@ -73,7 +80,7 @@ app.get('/scrape', function (req, res) {
         .find("time")
         .attr("datetime");
 
-      newsItem.published = moment(newsItem.pubdate).format('MMMM Do YYYY, h:mm:ss a');
+      newsItem.published = (`${publishedDate.tz('America/Anchorage').format('MMMM D, YYYY')} at ${publishedDate.tz('America/Anchorage').format('h:mm:ss a z')}`);
 
       // Create a new Article using the `newsItem` object built from scraping
       db.Article.create(newsItem)
