@@ -18,7 +18,7 @@ Click on **View Comments** to see any existing comments related to the specific 
 
 ![](public/images/Manage.gif)
 
-## Give it a Try!
+## Take the Dip!
 
 ![](public/images/flag.png)
 
