@@ -8,7 +8,7 @@ I love Alaska.  I REALLY love Alaska.  I'm fascinated by Alaska.  I've gone to A
 
 ### Scraping the News
 
-Click on the Alaska state flag in the middle of the page to scrape for new headlines.  AlaskScraper is programmed to display sort the database response and display the most recently published headlines at the top of the list.
+Click on the Alaska state flag in the middle of the page to scrape for new headlines.  AlaskScraper is programmed to sort the database response and display the most recently published headlines at the top of the list, so you will see the newest news first.
 
 ![](public/images/Scrape.gif)
 
