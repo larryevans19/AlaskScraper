@@ -14,7 +14,7 @@ Click on the Alaska state flag in the middle of the page to scrape for new headl
 
 ### Managing Comments
 
-Click on **View Comments** to see any existing comments related to the specific article.  Old comments can be deleted by clicking the **Delete Comment** button next to each comment.  New comments can be added by clicking the **Add Comment** button.  Once viewing comments is complete, click **Close Comments** to hide the Comments section and get back to the headlines.
+Click on **View Comments** to see any existing comments related to the specific article.  Old comments can be deleted by clicking the **Delete Comment** button below comment.  New comments can be added by clicking the **Add Comment** button.  Once you are finished managing comments, click the **Close Comments** button to hide the Comments section and get back to the news.
 
 ![](public/images/Manage.gif)
 
